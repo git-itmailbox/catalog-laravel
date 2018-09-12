@@ -1,0 +1,1 @@
+* * * * * root php /var/www/artisan checkRates >> /var/www/storage/logs/cron.log 2>&1

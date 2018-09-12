@@ -1,0 +1,39 @@
+version: '2'
+services:
+ # The Application
+  app7fpm:
+    build:
+      context: .
+      dockerfile: app7fpm.dockerfile
+    working_dir: /var/www
+    volumes:
+      - ../:/var/www
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=db_catalog"
+# The Web Server
+  web7:
+    build:
+      context: .
+      dockerfile: web.dockerfile
+    working_dir: /var/www
+    volumes_from:
+      - app7fpm
+    ports:
+      - 8000:80
+
+
+  db_catalog:
+    image: mysql:5.7
+    volumes:
+      - catdbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=homestead"
+      - "MYSQL_USER=homestead"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+      - 33063:3306
+
+volumes:
+  catdbdata:
