@@ -26,7 +26,8 @@ Route::prefix('admin')->group(function (){
 
     Route::get('/', 'AdminController@index')->name('admin_dashboard');
     Route::get('/category', 'AdminController@categories')->name('categories');
-    Route::get('/category/c{id}', 'AdminController@get_category')->name('category');
+    Route::post('/category', 'AdminController@store_category')->name('store_category');
+    Route::get('/category/{id}', 'AdminController@get_category')->name('category');
     Route::put('/category/{id}', 'AdminController@update_category')->name('category');
 
 });

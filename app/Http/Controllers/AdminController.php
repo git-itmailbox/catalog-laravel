@@ -47,6 +47,25 @@ class AdminController extends Controller
 
     }
 
+    public function store_category(Request $request)
+    {
+
+        $validate = $request->validate([
+            'name' => 'required | max:50'
+        ]);
+
+        $category = new Category(['name'=> $request->get('name')]);
+        $result  = $category->save();
+
+        if ($result)
+        {
+            return response(['status'=>'ok'], 201);
+        }
+        return response(['status'=>'error'], 500);
+
+
+    }
+
     public function update_category(Request $request, $id)
     {
         $category = Category::findOrFail($id);

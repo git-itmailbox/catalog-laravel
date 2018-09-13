@@ -58,9 +58,14 @@
                     <input type="text" id="name" name="name" class="form-control validate">
                     <label data-error="wrong" data-success="right" for="name">Category name</label>
                 </div>
+                <div id="message-error" class="alert alert-danger" style="display: none">
+
+                </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button class="btn btn-unique" id="createCategoryBtn">Create</button>
+
+
             </div>
         </div>
     </div>
