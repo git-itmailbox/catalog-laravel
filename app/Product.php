@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    const FACTOR = 100;
 
     protected $fillable = ['name', 'description', 'price'];
 

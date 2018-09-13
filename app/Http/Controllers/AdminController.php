@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Product;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -14,7 +15,7 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'is_admin']);
     }
 
     /**
@@ -24,7 +25,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('home');
+//        return view('admin.index');
+        return $this->products(request());
     }
 
     /**
@@ -79,6 +81,13 @@ class AdminController extends Controller
         $category->save();
 
         return view('admin.category', ['category' => $category]);
+
+    }
+
+    public function products(Request $request)
+    {
+        $products = Product::all()->chunk(4);
+        return view('admin.index', ['products' => $products]);
 
     }
 }
