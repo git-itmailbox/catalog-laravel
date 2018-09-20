@@ -20,6 +20,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return redirect('home')->with(['alert-danger'=> 'You have not permission to enter here']);
+        return redirect('/')->with(['alert-danger'=> 'You have not permission to enter here']);
     }
 }

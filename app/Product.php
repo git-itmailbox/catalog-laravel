@@ -11,11 +11,11 @@ class Product extends Model
     protected $fillable = ['name', 'description', 'price'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany | ItemPicture
      */
     public function pictures()
     {
-        return $this->belongsToMany('ItemPicture');
+        return $this->hasMany(ItemPicture::class);
     }
 
     /**
@@ -23,7 +23,32 @@ class Product extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany('Category');
+        return $this->belongsToMany(Category::class)->withPivot('category_id');
+    }
+
+    public function scopeSmallPictures()
+    {
+        return $this->pictures()->where('size', ItemPicture::IMAGE_SIZE_110);
+    }
+
+    public function scopeMediumPictures()
+    {
+        return $this->pictures()->where('size', ItemPicture::IMAGE_SIZE_250);
+    }
+
+    public function scopeLargePictures()
+    {
+        return $this->pictures()->where('size', ItemPicture::IMAGE_SIZE_450);
+    }
+
+    public function getFirstSmallPicture()
+    {
+        return $this->smallPictures()->first();
+    }
+
+    public function getFormattedPrice()
+    {
+        return $this->price / static::FACTOR;
     }
 
 

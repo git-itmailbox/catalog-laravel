@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
+use App\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -23,6 +25,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $products = Product::paginate(10);
+        return view('home', ['products' => $products]);
+    }
+
+    /**
+     * Show one product.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showProduct($id)
+    {
+        $product = Product::with('pictures')->find($id);
+        $categories = $product->categories;
+
+        return view('product', ['product' => $product, 'categories'=> $categories]);
     }
 }
