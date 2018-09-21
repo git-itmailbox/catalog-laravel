@@ -99,19 +99,17 @@ jQuery(function () {
                 }
             })
                 .then(function (data) {
-                    if(data.status =='ok')
-                    {
+                    if (data.status == 'ok') {
                         location.reload()
                     }
-                console.log(data)
-            })
+                    console.log(data)
+                })
                 .catch(function (data) {
                     $response = JSON.parse(data.responseText)
                     $(".error-message").html($response.message).toggleClass('text-hide');
                 });
         }
     });
-
 
 
     $("#deleteProduct").click(function (event) {
@@ -130,8 +128,7 @@ jQuery(function () {
                 }
             })
                 .then(function (data) {
-                    if(data.status =='ok')
-                    {
+                    if (data.status == 'ok') {
                         window.location.href = '/admin/products';
                     }
                     console.log(data)
@@ -143,5 +140,36 @@ jQuery(function () {
         }
     });
 
+
+    $("#btnFilterByCategory").click(function (event) {
+
+        var ids = '';
+
+        $("[name='category[]']:checked").each(function () {
+
+            ids += $(this).val()+',';
+            console.log(ids)
+        });
+        if(ids !== '')
+        {
+            ids = ids.slice(0, -1)
+            location.href = "/?categories="+ids;
+        }
+    });
+
+
+
+    $("#btnFilterByOneCategory").click(function (event) {
+
+
+        var catVal = $("#filterCategory").val();
+        if(! isNaN(catVal))
+        {
+            location.href = "/category/c"+catVal;
+        }
+        location.href = "/";
+
+
+    });
 
 });

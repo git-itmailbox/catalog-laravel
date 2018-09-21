@@ -26,11 +26,7 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Catalog') }}
                 </a>
-                @auth()
-                @if(auth()->user()->isAdmin())
-                <a class="btn btn-light" href="{{ url('/admin') }}">Admin panel</a>
-                @endif
-                @endauth
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -38,7 +34,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        @auth()
+                            <li class="nav-item">
+                            @if(auth()->user()->isAdmin())
+                                <a class="btn btn-light" href="{{ url('/admin') }}">Admin panel</a>
+                            @endif
+                            </li>
 
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->

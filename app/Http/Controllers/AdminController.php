@@ -27,8 +27,8 @@ class AdminController extends Controller
      */
     public function index()
     {
-//        return view('admin.index');
-        return $this->products(request());
+        return view('admin.index');
+//        return $this->products(request());
     }
 
     /**
@@ -88,14 +88,15 @@ class AdminController extends Controller
     public function products(Request $request)
     {
         $products = Product::orderBy('id','desc')->paginate(10);
-        return view('admin.index', ['products' => $products]);
+        return view('admin.products', ['products' => $products]);
 
     }
 
 
     public function add_product(Request $request)
     {
-        return view('admin.new_product');
+        $categories = Category::all();
+        return view('admin.new_product', ['categories' => $categories]);
     }
 
     public function get_product($id)
@@ -143,12 +144,15 @@ class AdminController extends Controller
             'image_small.*' => 'image | mimes:jpeg,png,jpg,gif | max:2048',
             'image_medium.*' => 'image | mimes:jpeg,png,jpg,gif | max:2048',
             'image_large.*' => 'image | mimes:jpeg,png,jpg,gif | max:2048',
-
+            'category'  => 'array',
+            'category.*'  => 'numeric | integer',
         ]);
+        $productCategories = $request->get('category');
 
         $product = Product::create($request->all());
         $product->price = ceil($product->price * Product::FACTOR);
-        $product->update();
+        $product->save();
+        $product->categories()->sync($productCategories);
 
         foreach (['image_small','image_medium','image_large'] as $size)
         {

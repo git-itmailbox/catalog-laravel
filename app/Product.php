@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 
 class Product extends Model
 {
@@ -39,6 +40,13 @@ class Product extends Model
     public function scopeLargePictures()
     {
         return $this->pictures()->where('size', ItemPicture::IMAGE_SIZE_450);
+    }
+
+    public function scopeHasCategories($query, array $ids)
+    {
+        return $query->whereHas('categories', function ($q) use ($ids) {
+            $q->whereIn('category_id', $ids);
+        });
     }
 
     public function getFirstSmallPicture()

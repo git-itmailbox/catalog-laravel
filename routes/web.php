@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/products/p{id}', 'HomeController@showProduct')->name('show_product');
+Route::get('/category/c{id}', 'HomeController@showProductsByCategory')->name('by_category');
 
 
 Route::prefix('admin')->group(function (){

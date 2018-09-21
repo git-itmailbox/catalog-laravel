@@ -19,14 +19,28 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show all products
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(10);
-        return view('home', ['products' => $products]);
+        $products = Product::query()->orderBy('id','desc');
+        $queries = [];
+        $queryCategories = explode(',',$request->get('categories'));
+        if ( request()->has('categories') )
+        {
+            $products = $products->hasCategories($queryCategories);
+
+            $queries[ 'categories' ] = request('categories');
+        }
+
+        $links = $products->paginate(12)->appends($queries)->links();
+
+//        $products = Product::orderBy('id','desc')->paginate(12);
+        $categories = Category::all();
+
+        return view('home', ['products' => $products->get(), 'links' => $links, 'categories'=> $categories]);
     }
 
     /**
@@ -40,5 +54,20 @@ class HomeController extends Controller
         $categories = $product->categories;
 
         return view('product', ['product' => $product, 'categories'=> $categories]);
+    }
+
+    /**
+     * List of products by category.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showProductsByCategory($id)
+    {
+        $products = Product::with('pictures')->hasCategories([$id]);
+        $categories = Category::all();
+
+        $links = $products->paginate(12)->links();
+
+        return view('home', ['products' => $products->get(), 'categories'=> $categories, 'links' => $links, 'currentCategory'=>$id]);
     }
 }

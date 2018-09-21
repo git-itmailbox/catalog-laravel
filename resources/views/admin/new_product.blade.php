@@ -24,9 +24,26 @@
         <div class="row">
             <div class="form-group col-md-4 offset-4">
                 <label for="Price">Price:</label>
-                <input type="number" class="form-control" name="price" >
+                <input type="number" class="form-control" name="price" step="0.01">
             </div>
         </div>
+
+        <div class="form-group row">
+            <div class="form-group col-md-4 offset-4">
+                <label for="category">Category:</label>
+
+                @foreach($categories as $category)
+                    <div class="form-check checkbox">
+                        <label class="">
+                            <input class="form-check-input"
+                                type="checkbox" name="category[]"
+                                   value="{{$category->id}}">{{$category->name}}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         <div class="row">
             <div class="form-group col-md-4 offset-4">
                 <label for="image_small">Small image (110x110):</label>

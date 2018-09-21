@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group">
                         <label for="Price">Price:</label>
-                        <input type="number" class="form-control" name="price"
+                        <input type="number" class="form-control" name="price" step="0.01"
                                value="{{old('price',$product->getFormattedPrice())}}"
                         >
                     </div>
