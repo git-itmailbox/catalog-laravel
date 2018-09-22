@@ -28,7 +28,6 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.index');
-//        return $this->products(request());
     }
 
     /**
@@ -43,6 +42,12 @@ class AdminController extends Controller
         return view('admin.categories', ['categories' => $categories]);
     }
 
+    /**
+     * Get category
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function get_category($id)
     {
         $category = Category::findOrFail($id);
@@ -51,9 +56,14 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * Saving new category
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function store_category(Request $request)
     {
-
         $validate = $request->validate([
             'name' => 'required | max:50'
         ]);
@@ -69,6 +79,13 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * Updating  category
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function update_category(Request $request, $id)
     {
         $category = Category::findOrFail($id);
@@ -85,6 +102,12 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * Show list of products
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function products(Request $request)
     {
         $products = Product::orderBy('id','desc')->paginate(10);
@@ -93,6 +116,12 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * Get form for adding new product
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function add_product(Request $request)
     {
         $categories = Category::all();
@@ -165,8 +194,6 @@ class AdminController extends Controller
         }
 
         return redirect('admin', 201);
-
-
     }
 
     public function addPictures(Request $request, $id)

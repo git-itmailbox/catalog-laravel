@@ -4,12 +4,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                {{ Breadcrumbs::render(\Request::route()->getName(), $product) }}
 
                 @include('partials.flash')
             </div>
         </div>
-
-
         <form action="" method="post" class="">
             @csrf
             @method('PUT')

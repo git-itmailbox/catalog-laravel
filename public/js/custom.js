@@ -150,6 +150,7 @@ jQuery(function () {
             ids += $(this).val()+',';
             console.log(ids)
         });
+
         if(ids !== '')
         {
             ids = ids.slice(0, -1)
@@ -163,11 +164,16 @@ jQuery(function () {
 
 
         var catVal = $("#filterCategory").val();
+
         if(! isNaN(catVal))
         {
             location.href = "/category/c"+catVal;
         }
-        location.href = "/";
+        else
+        {
+
+            location.href = "/";
+        }
 
 
     });
