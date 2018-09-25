@@ -62,6 +62,9 @@
                 <div class="large-12 medium-12 small-12 cell">
                     <div v-for="(file, key) in images_large" class="file-listing">{{ file.name }}</div>
                 </div>
+                <div class="large-12 medium-12 small-12 cell">
+                    <div v-for="(message, key) in errorMsg.image_large" class="file-listing">{{ message}}</div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -143,13 +146,20 @@
                         }
                     }
                 ).then(function () {
-                    console.log('SUCCESS!!');
                     location.reload()
                 })
-                    .catch(function (data) {
-                        this.errorMsg = data.message
+                    .catch(error=> {
+                        if(error.response.status = 413)
+                        {
+                            console.log(error.response.statusText);
+                            this.errorMsg = error.response.statusText
+                        }
+                        else
+                        {
+                            console.log(error.response.data.errors);
+                            this.errorMsg = error.response.data.message
+                        }
                         console.log('FAILURE!!');
-
                     });
             },
 
