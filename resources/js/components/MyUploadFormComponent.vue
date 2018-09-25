@@ -18,7 +18,9 @@
 
 <template>
     <div class="container">
-
+        <div v-if="isError" class="row">
+            <div class="col alert-danger">{{errorMsg}}</div>
+        </div>
         <div class="row">
             <div class="form-group col">
                 <label for="image_small">Small image (110x110):</label>
@@ -79,7 +81,8 @@
             return {
                 images_small: [],
                 images_medium: [],
-                images_large: []
+                images_large: [],
+                errorMsg: ""
             }
         },
         computed: {
@@ -94,6 +97,9 @@
             },
             submitEnabled: function() {
                 return this.smallCount || this.mediumCount || this.largeCount
+            },
+            isError: function () {
+                return this.errorMsg !==''
             }
         },
         methods: {
@@ -138,10 +144,12 @@
                     }
                 ).then(function () {
                     console.log('SUCCESS!!');
-                    // location.reload()
+                    location.reload()
                 })
-                    .catch(function () {
+                    .catch(function (data) {
+                        this.errorMsg = data.message
                         console.log('FAILURE!!');
+
                     });
             },
 
