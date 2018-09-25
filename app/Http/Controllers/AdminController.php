@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\ItemPicture;
 use App\Product;
+use Gumlet\ImageResize;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -143,6 +144,7 @@ class AdminController extends Controller
         $validate = $request->validate([
             'name' => 'required | max:50',
             'price' => 'required | numeric | min:0 | max:9999999',
+            'discount' => ' numeric | min:0 | max:99.99',
             'description' => 'max:1000',
             'category'  => 'array',
             'category.*'  => 'numeric | integer',
@@ -151,10 +153,12 @@ class AdminController extends Controller
         $product->name = $request->get('name');
         $product->description = $request->get('description');
         $product->price = floatval($request->get('price')) * Product::FACTOR;
+        $product->discount = floatval($request->get('discount')) * Product::FACTOR;
         $productCategories = $request->get('category');
 
         $product->save();
         $product->categories()->sync($productCategories);
+
         $categories =  Category::orderBy('name')->get();
 
         session()->flash('alert-success', 'Product successfully updated');
@@ -169,6 +173,7 @@ class AdminController extends Controller
         $validate = $request->validate([
             'name' => 'required | max:50',
             'price' => 'required | numeric | min:0 | max:9999999',
+            'discount' => ' numeric | min:0 | max:99.99',
             'description' => 'max:1000',
             'image_small.*' => 'image | mimes:jpeg,png,jpg,gif | max:2048',
             'image_medium.*' => 'image | mimes:jpeg,png,jpg,gif | max:2048',
@@ -269,6 +274,7 @@ class AdminController extends Controller
      * @param $image
      * @param $product
      * @return array
+     * @throws \Gumlet\ImageResizeException
      */
     private function createItemPicture($image, int $product_id, string $size): array
     {
@@ -276,18 +282,23 @@ class AdminController extends Controller
         {
             case 'image_large':
                 $type = ItemPicture::IMAGE_SIZE_450;
+                $pixels = 450;
                 break;
             case 'image_medium':
                 $type = ItemPicture::IMAGE_SIZE_250;
+                $pixels = 250;
                 break;
             case 'image_small':
             default:
                 $type = ItemPicture::IMAGE_SIZE_110;
+                $pixels = 110;
                 break;
         }
-
         $path = $image->store('public/images');
         $filename = explode('/', $path);
+        $imageTool = new ImageResize(base_path('storage/app/'.$path));
+        $imageTool->resizeToLongSide($pixels);
+        $imageTool->save(base_path('storage/app/'.$path));
         ItemPicture::create([
             'product_id' => $product_id,
             'size' => $type,

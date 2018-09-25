@@ -27,7 +27,12 @@
                 <input type="number" class="form-control" name="price" step="0.01">
             </div>
         </div>
-
+        <div class="row">
+            <div class="form-group col-md-4 offset-4">
+                <label for="discount">Promote discount (%):</label>
+                <input type="number" class="form-control" name="discount" min="0" max="99.99" step="0.01" value="0">
+            </div>
+        </div>
         <div class="form-group row">
             <div class="form-group col-md-4 offset-4">
                 <label for="category">Category:</label>

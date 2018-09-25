@@ -50,7 +50,7 @@ class HomeController extends Controller
      */
     public function showProduct($id)
     {
-        $product = Product::with('pictures')->find($id);
+        $product = Product::with('pictures')->findOrFail($id);
         $categories = $product->categories;
 
         return view('product', ['product' => $product, 'categories'=> $categories]);

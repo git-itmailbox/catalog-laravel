@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                {{ Breadcrumbs::render(\Request::route()->getName(), $product) }}
+                {{ Breadcrumbs::render('admin.product', $product) }}
 
                 @include('partials.flash')
             </div>
@@ -23,6 +23,12 @@
                         <label for="Price">Price:</label>
                         <input type="number" class="form-control" name="price" step="0.01"
                                value="{{old('price',$product->getFormattedPrice())}}"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="discount">Promote discount (%):</label>
+                        <input type="number" class="form-control" name="discount" min="0" max="99.99" step="0.01"
+                               value="{{old('discount',$product->getFormattedDiscount())}}"
                         >
                     </div>
 

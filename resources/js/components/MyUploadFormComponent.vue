@@ -23,9 +23,9 @@
             <div class="form-group col">
                 <label for="image_small">Small image (110x110):</label>
                 <input id="image_small" ref="image_small" name="image_small[]" type="file" multiple
-                       v-on:change="handleFilesUploadSmall()">
+                       v-on:change="handleFilesUploadSmall">
                 <div class="large-12 medium-12 small-12 cell">
-                    <button class="btn btn-secondary" v-on:click="addFilesSmall()">Add Files</button>
+                    <button class="btn btn-secondary form-control-file" v-on:click="addFilesSmall()">Add Files</button>
                 </div>
                 <label>Selected {{smallCount}}</label>
                 <div class="large-12 medium-12 small-12 cell">
@@ -38,9 +38,9 @@
             <div class="form-group col">
                 <label for="image_medium">Medium image (250x250):</label>
                 <input id="image_medium" ref="image_medium" name="image_medium[]" type="file" multiple
-                       v-on:change="handleFilesUploadMedium()">
+                       v-on:change="handleFilesUploadMedium">
                 <div class="large-12 medium-12 small-12 cell">
-                    <button class="btn btn-secondary" v-on:click="addFilesMedium()">Add Files</button>
+                    <button class="btn btn-secondary form-control-file" v-on:click="addFilesMedium()">Add Files</button>
                 </div>
                 <label>Selected {{mediumCount}}</label>
                 <div class="large-12 medium-12 small-12 cell">
@@ -52,9 +52,9 @@
             <div class="form-group col">
                 <label for="image_large">Large image (450x450):</label>
                 <input id="image_large" ref="image_large" name="image_large[]" type="file" multiple
-                       v-on:change="handleFilesUploadLarge()">
+                       v-on:change="handleFilesUploadLarge">
                 <div class="large-12 medium-12 small-12 cell">
-                    <button class="btn btn-secondary" v-on:click="addFilesLarge()">Add Files</button>
+                    <button class="btn btn-secondary form-control-file" v-on:click="addFilesLarge()">Add Files</button>
                 </div>
                 <label>Selected {{largeCount}}</label>
                 <div class="large-12 medium-12 small-12 cell">
@@ -64,7 +64,7 @@
         </div>
         <div class="row">
             <div class="form-group col-md-4 offset-4" style="margin-top:60px">
-                <button v-on:click="submitFiles()">Submit</button>
+                <button :disabled="!submitEnabled" class="btn btn-primary form-control" v-on:click="submitFiles()">Submit</button>
             </div>
         </div>
     </div>
@@ -87,10 +87,13 @@
                 return this.images_small.length
             },
             mediumCount: function () {
-                return this.images_small.length
+                return this.images_medium.length
             },
             largeCount: function () {
-                return this.images_small.length
+                return this.images_large.length
+            },
+            submitEnabled: function() {
+                return this.smallCount || this.mediumCount || this.largeCount
             }
         },
         methods: {
@@ -135,7 +138,7 @@
                     }
                 ).then(function () {
                     console.log('SUCCESS!!');
-                    location.reload()
+                    // location.reload()
                 })
                     .catch(function () {
                         console.log('FAILURE!!');

@@ -59,5 +59,21 @@ class Product extends Model
         return $this->price / static::FACTOR;
     }
 
+    public function getFormattedDiscount()
+    {
+        return $this->discount / static::FACTOR;
+    }
+
+    public function getFormattedPromotePrice()
+    {
+
+        return ($this->price - ($this->discount / static::FACTOR  * $this->price / static::FACTOR )) / static::FACTOR ;
+    }
+
+    public function hasDiscount()
+    {
+        return $this->discount>0;
+    }
+
 
 }

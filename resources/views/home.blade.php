@@ -72,7 +72,15 @@
                             </a>
                         </div>
                         <h5 class="text-center">{{$product->description}}</h5>
-                        <h5 class="text-center">Price: ${{$product->getFormattedPrice()}}</h5>
+                        @if($product->hasDiscount())
+                        <s class="text-center">Price: ${{$product->getFormattedPrice()}}</s>
+                        <h5 class="text-center text-danger">Promote price: ${{$product->getFormattedPromotePrice()}}</h5>
+
+                        @else
+                            <h5 class="text-center">Price: ${{$product->getFormattedPrice()}}</h5>
+
+                        @endif
+
                         <a href="#" class="btn detail-btn">Details</a>
                     </div>
                 @endforeach
