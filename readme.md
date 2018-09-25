@@ -11,6 +11,7 @@ Test task. View and manage products.
 7. Run in terminal `php artisan migrate --seed`, this will run migration with test data.
 8. Run in terminal `php artisan storage:link` for creating symlink to storage directory
 9. Run in terminal `php artisan serve`
+
 Credentials for admin user you can get from `...create_users_table...` migration.
 
 
