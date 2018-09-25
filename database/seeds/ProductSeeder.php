@@ -22,7 +22,7 @@ class ProductSeeder extends Seeder
     {
         $categories = \App\Category::all(['id'])->pluck('id')->toArray();
 
-        $quantity = 100;
+        $quantity = 20;
         $products = [];
 
         for($i=0; $i<$quantity; $i++)
